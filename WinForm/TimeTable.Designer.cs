@@ -276,7 +276,7 @@
             // 
             this._date.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this._date.Location = new System.Drawing.Point(11, 19);
-            this._date.MaxDate = new System.DateTime(2020, 12, 31, 0, 0, 0, 0);
+            this._date.MaxDate = new System.DateTime(2018, 12, 31, 0, 0, 0, 0);
             this._date.MinDate = new System.DateTime(2017, 1, 1, 0, 0, 0, 0);
             this._date.Name = "_date";
             this._date.Size = new System.Drawing.Size(94, 20);
