@@ -9,7 +9,7 @@ namespace SwissTransport
     {
         public Stations GetStations(string query)
         {
-            var request = CreateWebRequest("http://transport.opendata.ch/v1/locations?query=" + query);
+            var request = CreateWebRequest("http://transport.opendata.ch/v1/locations?query=" + query+"&type=station");//
             var response = request.GetResponse();
             var responseStream = response.GetResponseStream();
 
@@ -24,9 +24,9 @@ namespace SwissTransport
             return null;
         }
 
-        public StationBoardRoot GetStationBoard(string station, string id=null, string datetime=null)
+        public StationBoardRoot GetStationBoard(string station, string id, string datetime=null)
         {
-            var request = CreateWebRequest(string.IsNullOrWhiteSpace(datetime) || string.IsNullOrWhiteSpace(id) ? "http://transport.opendata.ch/v1/stationboard?Station=" + station:
+            var request = CreateWebRequest(string.IsNullOrWhiteSpace(datetime)? "http://transport.opendata.ch/v1/stationboard?Station=" + station + "&id=" + id :
                 "http://transport.opendata.ch/v1/stationboard?Station=" + station + "&id=" + id + "&datetime=" + datetime);
             var response = request.GetResponse();
             var responseStream = response.GetResponseStream();
@@ -45,7 +45,7 @@ namespace SwissTransport
         public Connections GetConnections(string fromStation, string toStation, string date=null, string time=null)
         {
             var request = CreateWebRequest(string.IsNullOrEmpty(date) || string.IsNullOrEmpty(time)? "http://transport.opendata.ch/v1/connections?from=" + fromStation + "&to=" + toStation 
-                :"http://transport.opendata.ch/v1/connections?from=" + fromStation + "&to=" + toStation + "&date=" + date + "&time=" + time );
+                :"http://transport.opendata.ch/v1/connections?from=" + fromStation + "&to=" + toStation + "&date=" + date + "&time=" + time + "&limit=5");
             var response = request.GetResponse();
             var responseStream = response.GetResponseStream();
 

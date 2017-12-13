@@ -48,7 +48,5 @@ namespace WinForm.Helpers
             get => _lblText.Text;
             set => _lblText.Text = value;
         }
-
-
     }
 }

@@ -9,6 +9,5 @@ namespace WinForm.Helpers
     public static class Converter
     {
         public static string TimeToString( DateTime date)=> date.ToString("HH:mm");
-        public static string DateToString(DateTime date) => date.ToString("yyyy-MM-dd");
-    }
+        public static string DateToString(DateTime date) => date.ToString("yyyy-MM-dd");    }
 }

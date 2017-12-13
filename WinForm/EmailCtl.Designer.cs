@@ -42,7 +42,7 @@
             // 
             this._txtSubject.Location = new System.Drawing.Point(80, 40);
             this._txtSubject.Name = "_txtSubject";
-            this._txtSubject.Size = new System.Drawing.Size(100, 20);
+            this._txtSubject.Size = new System.Drawing.Size(136, 20);
             this._txtSubject.TabIndex = 0;
             // 
             // label1
@@ -67,12 +67,12 @@
             // 
             this._txtRecipient.Location = new System.Drawing.Point(80, 83);
             this._txtRecipient.Name = "_txtRecipient";
-            this._txtRecipient.Size = new System.Drawing.Size(100, 20);
+            this._txtRecipient.Size = new System.Drawing.Size(136, 20);
             this._txtRecipient.TabIndex = 3;
             // 
             // _btnSent
             // 
-            this._btnSent.Location = new System.Drawing.Point(156, 267);
+            this._btnSent.Location = new System.Drawing.Point(141, 267);
             this._btnSent.Name = "_btnSent";
             this._btnSent.Size = new System.Drawing.Size(75, 23);
             this._btnSent.TabIndex = 4;
@@ -83,7 +83,7 @@
             // _btnCancel
             // 
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Location = new System.Drawing.Point(237, 267);
+            this._btnCancel.Location = new System.Drawing.Point(222, 267);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 5;
@@ -96,7 +96,7 @@
             this._txtText.Location = new System.Drawing.Point(80, 122);
             this._txtText.Multiline = true;
             this._txtText.Name = "_txtText";
-            this._txtText.Size = new System.Drawing.Size(210, 107);
+            this._txtText.Size = new System.Drawing.Size(217, 107);
             this._txtText.TabIndex = 6;
             // 
             // label3

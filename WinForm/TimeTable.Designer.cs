@@ -1,6 +1,6 @@
 ﻿namespace WinForm
 {
-    partial class Form1
+    partial class TimeTable
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -47,8 +47,6 @@
             this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Platform = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Arrival = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._picBoxSendMail = new System.Windows.Forms.PictureBox();
-            this._picBoxSwapStations = new System.Windows.Forms.PictureBox();
             this._groupBox = new System.Windows.Forms.GroupBox();
             this._radioConnections = new System.Windows.Forms.RadioButton();
             this._radioStationBoard = new System.Windows.Forms.RadioButton();
@@ -56,17 +54,19 @@
             this._time = new System.Windows.Forms.DateTimePicker();
             this._groupBoxDateTime = new System.Windows.Forms.GroupBox();
             this._groupBoxEndStationCtls = new System.Windows.Forms.GroupBox();
-            this._infoCtl = new WinForm.Helpers.InfoCtl();
+            this._picBoxSwapStations = new System.Windows.Forms.PictureBox();
             this._picBoxOpenInBrowser = new System.Windows.Forms.PictureBox();
+            this._picBoxSendMail = new System.Windows.Forms.PictureBox();
+            this._infoCtl = new WinForm.Helpers.InfoCtl();
             this._pnlResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._gridStationBoard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._gridConnctions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._picBoxSendMail)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._picBoxSwapStations)).BeginInit();
             this._groupBox.SuspendLayout();
             this._groupBoxDateTime.SuspendLayout();
             this._groupBoxEndStationCtls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._picBoxSwapStations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._picBoxOpenInBrowser)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._picBoxSendMail)).BeginInit();
             this.SuspendLayout();
             // 
             // _lblEnd
@@ -81,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 45);
+            this.label2.Location = new System.Drawing.Point(22, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 99;
@@ -90,7 +90,7 @@
             // _comboStart
             // 
             this._comboStart.FormattingEnabled = true;
-            this._comboStart.Location = new System.Drawing.Point(68, 36);
+            this._comboStart.Location = new System.Drawing.Point(70, 39);
             this._comboStart.Name = "_comboStart";
             this._comboStart.Size = new System.Drawing.Size(121, 21);
             this._comboStart.TabIndex = 1;
@@ -99,7 +99,7 @@
             // _comboEnd
             // 
             this._comboEnd.FormattingEnabled = true;
-            this._comboEnd.Location = new System.Drawing.Point(104, 33);
+            this._comboEnd.Location = new System.Drawing.Point(104, 39);
             this._comboEnd.Name = "_comboEnd";
             this._comboEnd.Size = new System.Drawing.Size(121, 21);
             this._comboEnd.TabIndex = 3;
@@ -107,7 +107,7 @@
             // 
             // _btnSearchConnection
             // 
-            this._btnSearchConnection.Location = new System.Drawing.Point(475, 36);
+            this._btnSearchConnection.Location = new System.Drawing.Point(481, 39);
             this._btnSearchConnection.Name = "_btnSearchConnection";
             this._btnSearchConnection.Size = new System.Drawing.Size(75, 23);
             this._btnSearchConnection.TabIndex = 4;
@@ -238,40 +238,11 @@
             this.Arrival.Name = "Arrival";
             this.Arrival.ReadOnly = true;
             // 
-            // _picBoxSendMail
-            // 
-            this._picBoxSendMail.BackColor = System.Drawing.Color.White;
-            this._picBoxSendMail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._picBoxSendMail.Image = global::WinForm.Properties.Resources.email;
-            this._picBoxSendMail.Location = new System.Drawing.Point(994, 88);
-            this._picBoxSendMail.Name = "_picBoxSendMail";
-            this._picBoxSendMail.Size = new System.Drawing.Size(37, 34);
-            this._picBoxSendMail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this._picBoxSendMail.TabIndex = 102;
-            this._picBoxSendMail.TabStop = false;
-            this._picBoxSendMail.Click += new System.EventHandler(this._picBoxSendMail_Click);
-            this._picBoxSendMail.MouseLeave += new System.EventHandler(this._picBoxSendMail_MouseLeave);
-            this._picBoxSendMail.MouseHover += new System.EventHandler(this._picBoxSendMail_MouseHover);
-            // 
-            // _picBoxSwapStations
-            // 
-            this._picBoxSwapStations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._picBoxSwapStations.Image = global::WinForm.Properties.Resources.Swap;
-            this._picBoxSwapStations.Location = new System.Drawing.Point(6, 33);
-            this._picBoxSwapStations.Name = "_picBoxSwapStations";
-            this._picBoxSwapStations.Size = new System.Drawing.Size(26, 26);
-            this._picBoxSwapStations.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this._picBoxSwapStations.TabIndex = 102;
-            this._picBoxSwapStations.TabStop = false;
-            this._picBoxSwapStations.Click += new System.EventHandler(this._picBoxSwapStations_Click);
-            this._picBoxSwapStations.MouseLeave += new System.EventHandler(this._picBoxSwapStations_MouseLeave);
-            this._picBoxSwapStations.MouseHover += new System.EventHandler(this._picBoxSwapStations_MouseHover);
-            // 
             // _groupBox
             // 
             this._groupBox.Controls.Add(this._radioConnections);
             this._groupBox.Controls.Add(this._radioStationBoard);
-            this._groupBox.Location = new System.Drawing.Point(652, 26);
+            this._groupBox.Location = new System.Drawing.Point(574, 17);
             this._groupBox.Name = "_groupBox";
             this._groupBox.Size = new System.Drawing.Size(227, 68);
             this._groupBox.TabIndex = 104;
@@ -342,6 +313,48 @@
             this._groupBoxEndStationCtls.TabIndex = 2;
             this._groupBoxEndStationCtls.TabStop = false;
             // 
+            // _picBoxSwapStations
+            // 
+            this._picBoxSwapStations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._picBoxSwapStations.Image = global::WinForm.Properties.Resources.Swap;
+            this._picBoxSwapStations.Location = new System.Drawing.Point(6, 36);
+            this._picBoxSwapStations.Name = "_picBoxSwapStations";
+            this._picBoxSwapStations.Size = new System.Drawing.Size(26, 26);
+            this._picBoxSwapStations.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._picBoxSwapStations.TabIndex = 102;
+            this._picBoxSwapStations.TabStop = false;
+            this._picBoxSwapStations.Click += new System.EventHandler(this._picBoxSwapStations_Click);
+            this._picBoxSwapStations.MouseLeave += new System.EventHandler(this._picBoxSwapStations_MouseLeave);
+            this._picBoxSwapStations.MouseHover += new System.EventHandler(this._picBoxSwapStations_MouseHover);
+            // 
+            // _picBoxOpenInBrowser
+            // 
+            this._picBoxOpenInBrowser.Image = global::WinForm.Properties.Resources.gMaps;
+            this._picBoxOpenInBrowser.Location = new System.Drawing.Point(951, 88);
+            this._picBoxOpenInBrowser.Name = "_picBoxOpenInBrowser";
+            this._picBoxOpenInBrowser.Size = new System.Drawing.Size(37, 34);
+            this._picBoxOpenInBrowser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._picBoxOpenInBrowser.TabIndex = 108;
+            this._picBoxOpenInBrowser.TabStop = false;
+            this._picBoxOpenInBrowser.Click += new System.EventHandler(this._picBoxOpenInBrowser_Click);
+            this._picBoxOpenInBrowser.MouseLeave += new System.EventHandler(this._picBoxOpenInBrowser_MouseLeave);
+            this._picBoxOpenInBrowser.MouseHover += new System.EventHandler(this._picBoxOpenInBrowser_MouseHover);
+            // 
+            // _picBoxSendMail
+            // 
+            this._picBoxSendMail.BackColor = System.Drawing.Color.White;
+            this._picBoxSendMail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._picBoxSendMail.Image = global::WinForm.Properties.Resources.email;
+            this._picBoxSendMail.Location = new System.Drawing.Point(994, 88);
+            this._picBoxSendMail.Name = "_picBoxSendMail";
+            this._picBoxSendMail.Size = new System.Drawing.Size(37, 34);
+            this._picBoxSendMail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._picBoxSendMail.TabIndex = 102;
+            this._picBoxSendMail.TabStop = false;
+            this._picBoxSendMail.Click += new System.EventHandler(this._picBoxSendMail_Click);
+            this._picBoxSendMail.MouseLeave += new System.EventHandler(this._picBoxSendMail_MouseLeave);
+            this._picBoxSendMail.MouseHover += new System.EventHandler(this._picBoxSendMail_MouseHover);
+            // 
             // _infoCtl
             // 
             this._infoCtl.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -352,16 +365,7 @@
             this._infoCtl.Size = new System.Drawing.Size(1064, 65);
             this._infoCtl.TabIndex = 103;
             // 
-            // _picBoxOpenInBrowser
-            // 
-            this._picBoxOpenInBrowser.Location = new System.Drawing.Point(951, 88);
-            this._picBoxOpenInBrowser.Name = "_picBoxOpenInBrowser";
-            this._picBoxOpenInBrowser.Size = new System.Drawing.Size(37, 34);
-            this._picBoxOpenInBrowser.TabIndex = 108;
-            this._picBoxOpenInBrowser.TabStop = false;
-            this._picBoxOpenInBrowser.Click += new System.EventHandler(this._picBoxOpenInBrowser_Click);
-            // 
-            // Form1
+            // TimeTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -377,19 +381,19 @@
             this.Controls.Add(this._comboStart);
             this.Controls.Add(this.label2);
             this.MinimumSize = new System.Drawing.Size(880, 405);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "TimeTable";
+            this.Text = "TimeTable";
             this._pnlResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._gridStationBoard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._gridConnctions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._picBoxSendMail)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._picBoxSwapStations)).EndInit();
             this._groupBox.ResumeLayout(false);
             this._groupBox.PerformLayout();
             this._groupBoxDateTime.ResumeLayout(false);
             this._groupBoxEndStationCtls.ResumeLayout(false);
             this._groupBoxEndStationCtls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._picBoxSwapStations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._picBoxOpenInBrowser)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._picBoxSendMail)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

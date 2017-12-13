@@ -14,7 +14,7 @@ namespace WinForm.Helpers
     public static class Helper
     {
 
-        public static void SendResultsViaMAil(DataGridView dataGridView,MailModel mailModel)
+        public static void SendGridContentViaMAil(DataGridView dataGridView,MailModel mailModel)
         {
 
             String datatable = "<table width='100%' style='border:Solid 1px Black;'>";
@@ -25,10 +25,7 @@ namespace WinForm.Helpers
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 datatable += "<tr>";
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    datatable += "<td>" + cell.Value + "</td>";
-                }
+                datatable = row.Cells.Cast<DataGridViewCell>().Aggregate(datatable, (current, cell) => current + ("<td>" + cell.Value + "</td>"));
                 datatable += "</tr>";
             }
             datatable += "</table>";

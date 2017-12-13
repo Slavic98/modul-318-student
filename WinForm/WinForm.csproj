@@ -7,7 +7,7 @@
     <ProjectGuid>{DE9A82E4-669C-422D-AF37-5FB450DBD8BC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WinForm</RootNamespace>
-    <AssemblyName>WinForm</AssemblyName>
+    <AssemblyName>TimeTable</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -56,11 +56,11 @@
     <Compile Include="EmailCtl.Designer.cs">
       <DependentUpon>EmailCtl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="TimeTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="TimeTable.Designer.cs">
+      <DependentUpon>TimeTable.cs</DependentUpon>
     </Compile>
     <Compile Include="FormVM.cs" />
     <Compile Include="Helpers\Converter.cs" />
@@ -77,8 +77,8 @@
     <EmbeddedResource Include="EmailCtl.resx">
       <DependentUpon>EmailCtl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="TimeTable.resx">
+      <DependentUpon>TimeTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Helpers\InfoCtl.resx">
       <DependentUpon>InfoCtl.cs</DependentUpon>
@@ -164,6 +164,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gMaps.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

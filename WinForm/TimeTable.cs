@@ -13,9 +13,9 @@ using WinForm.Properties;
 
 namespace WinForm
 {
-    public partial class Form1 : Form
+    public partial class TimeTable : Form
     {
-        public Form1()
+        public TimeTable()
         {
             InitializeComponent();
 
@@ -23,7 +23,7 @@ namespace WinForm
             InitControls();
         }
 
-        public Transport Transport { get; set; }
+        private Transport Transport { get; set; }
 
         private void InitControls()
         {
@@ -39,14 +39,14 @@ namespace WinForm
         /// <returns></returns>
         private bool DoValidateCombos()
         {
-            if (_comboStart.SelectedItem == null)
+            if (_comboStart.SelectedItem == null || string.IsNullOrEmpty(_comboStart.Text))
             {
                 _infoCtl.LabelText = "Wählen Sie bitte eine gültige Startstation \n ";
                 _infoCtl.InfoType = InfoType.Warning;
                 _comboStart.Focus();
                 return false;
             }
-            if (_radioConnections.Checked && _comboEnd.SelectedItem == null)
+            if (_radioConnections.Checked && (_comboEnd.SelectedItem == null || string.IsNullOrEmpty(_comboEnd.Text)))
             {
                 _infoCtl.LabelText = "Wählen Sie bitte eine gültige Zielstation";
                 _infoCtl.InfoType = InfoType.Warning;
@@ -60,15 +60,16 @@ namespace WinForm
         /// Elemente von DropDown aktualisieren
         /// </summary>
         /// <param name="box"></param>
-        private void FillComboDataSource(ComboBox box)
+        /// <param name="dropDown"></param>
+        private void FillComboDataSource(ComboBox box,bool dropDown=true)
         {
             var inputText = box?.Text;
             if (!string.IsNullOrWhiteSpace(inputText))
             {
-                box.DataSource = Transport.GetStations(inputText).StationList;
+                box.DataSource = Transport.GetStations(inputText).StationList.FindAll(e=>!string.IsNullOrEmpty(e.Id));
 
                 box.Text = inputText;
-                box.DroppedDown = true;
+                box.DroppedDown = dropDown;
                 box.SelectionStart = inputText.Length;
             }
         }
@@ -94,10 +95,12 @@ namespace WinForm
                 _gridConnctions.Rows[row].Cells[nameof(Duration)].Value = // TODO: in Converter??
                     connection.Duration.Substring(3, 2) + " h " + connection.Duration.Substring(6, 2) + " min";
                 _gridConnctions.Rows[row].Cells[nameof(Platform)].Value = connection.To.Platform;
-                _gridConnctions.Rows[row].Cells[nameof(Arrival)].Value = connection.To.Arrival;
+                _gridConnctions.Rows[row].Cells[nameof(Arrival)].Value =Convert.ToDateTime(connection.To.Arrival).ToShortDateString()+" " +Convert.ToDateTime(connection.To.Arrival).ToShortTimeString();// connection.To.Arrival;
             }
         }
-
+        /// <summary>
+        /// _gridStationBoard befüllen
+        /// </summary>
         private void GetStationBoard()
         {
             _gridStationBoard.Rows.Clear();
@@ -114,7 +117,6 @@ namespace WinForm
                 _gridStationBoard.Rows[row].Cells[nameof(Operator)].Value = station.Operator;
                 _gridStationBoard.Rows[row].Cells[nameof(StationName)].Value = station.Name;
             }
-
         }
 
 
@@ -133,27 +135,32 @@ namespace WinForm
         }
 
         #region Events
-        private void _comboStart_TextUpdate(object sender, EventArgs e) => FillComboDataSource(sender as ComboBox);
-
-        private void _comboEnd_TextUpdate(object sender, EventArgs e) => FillComboDataSource(sender as ComboBox);
-
         private void _btnSearchConnection_Click(object sender, EventArgs e)
         {
             if (!DoValidateCombos()) return;
             //
+            var cursor = Cursor.Current;//in dem Fall das nich default ist
+            Cursor.Current=Cursors.WaitCursor;
+
             if (_radioConnections.Checked)
                 FindConnections();
             else
                 GetStationBoard();
-        }
 
+            Cursor.Current=cursor;
+        }
         private void _picBoxSwapStations_Click(object sender, EventArgs e)
         {
             var start = _comboStart.Text;
             _comboStart.Text = _comboEnd.Text;
             _comboEnd.Text = start;
-        }
 
+            FillComboDataSource(_comboStart,false);
+            FillComboDataSource(_comboEnd,false);
+            var startItem = _comboStart.SelectedItem;
+            _comboStart.SelectedItem = _comboEnd.SelectedItem;
+            _comboEnd.SelectedItem = startItem;
+        }
         private void _picBoxSendMail_Click(object sender, EventArgs e)
         {
             var grid = _radioConnections.Checked ? _gridConnctions : _gridStationBoard;
@@ -168,26 +175,22 @@ namespace WinForm
             var result= email.ShowDialog();
             if (result == DialogResult.Cancel)
                 return;
-            Helper.SendResultsViaMAil(grid,new MailModel(email.Body,email.Recipient,email.Subject));
+            Helper.SendGridContentViaMAil(grid,new MailModel(email.Body,email.Recipient,email.Subject));
         }
-
-        private void _picBoxSwapStations_MouseHover(object sender, EventArgs e)
+        private void _picBoxOpenInBrowser_Click(object sender, EventArgs e)
         {
-            ((PictureBox) sender).BorderStyle = BorderStyle.Fixed3D;
-            ToolTip tt = new ToolTip();
-            tt.SetToolTip(this._picBoxSendMail, "Ausgangsort und Reiseziel vertauschen");
+            if (_radioConnections.Checked)
+            {
+                System.Diagnostics.Process.Start("https://www.google.ch/maps/dir/" + (_comboStart.SelectedItem as Station)?.Name.Replace(" ", "+")+"/"+(_comboEnd.SelectedItem as Station)?.Name.Replace(" ", "+"));
+            }
+            else
+            {
+                System.Diagnostics.Process.Start("https://www.google.ch/maps/place/"+(_comboStart.SelectedItem as Station)?.Name.Replace(" ","+"));
+            }
         }
 
-        private void _picBoxSendMail_MouseHover(object sender, EventArgs e)
-        {
-            ((PictureBox) sender).BorderStyle = BorderStyle.Fixed3D;
-            ToolTip tt = new ToolTip();
-            tt.SetToolTip(this._picBoxSendMail, "Resultaten mit Outlook senden");
-        }
-
-        private void _picBoxSendMail_MouseLeave(object sender, EventArgs e) =>((PictureBox) sender).BorderStyle = BorderStyle.FixedSingle;
-
-        private void _picBoxSwapStations_MouseLeave(object sender, EventArgs e) =>((PictureBox) sender).BorderStyle = BorderStyle.FixedSingle;
+        private void _comboStart_TextUpdate(object sender, EventArgs e) => FillComboDataSource(sender as ComboBox);
+        private void _comboEnd_TextUpdate(object sender, EventArgs e) => FillComboDataSource(sender as ComboBox);
 
         private void _radioStationBoard_CheckedChanged(object sender, EventArgs e) => ChangeVisibleState();
         private void _radioConnections_CheckedChanged(object sender, EventArgs e) => ChangeVisibleState();
@@ -197,21 +200,37 @@ namespace WinForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _pnlResult_Resize(object sender, EventArgs e) => _picBoxSendMail.Location =
-            new Point(_pnlResult.Location.X + _pnlResult.Size.Width - _picBoxSendMail.Size.Width,_picBoxSendMail.Location.Y);
-
-        #endregion
-
-        private void _picBoxOpenInBrowser_Click(object sender, EventArgs e)
+        private void _pnlResult_Resize(object sender, EventArgs e)
         {
-            if (_radioConnections.Checked)
-            {
-                System.Diagnostics.Process.Start("https://www.google.ch/maps/dir/" + (_comboStart.SelectedItem as Station).Name.Replace(" ", "+")+"/"+(_comboEnd.SelectedItem as Station).Name.Replace(" ", "+"));
-            }
-            else
-            {
-                System.Diagnostics.Process.Start("https://www.google.ch/maps/place/"+(_comboStart.SelectedItem as Station).Name.Replace(" ","+"));
-            }
+            _picBoxSendMail.Location =
+                new Point(_pnlResult.Location.X + _pnlResult.Size.Width - _picBoxSendMail.Size.Width,_picBoxSendMail.Location.Y);
+            _picBoxOpenInBrowser.Location =
+                new Point(_pnlResult.Location.X + _pnlResult.Size.Width - _picBoxSendMail.Size.Width- _picBoxOpenInBrowser.Size.Width-6, _picBoxOpenInBrowser.Location.Y);
         }
+
+        private void _picBoxSendMail_MouseHover(object sender, EventArgs e)
+        {
+            ((PictureBox) sender).BorderStyle = BorderStyle.Fixed3D;
+            ToolTip tt = new ToolTip();
+            tt.SetToolTip(((PictureBox)sender), "Resultaten mit Outlook senden");
+        }
+        private void _picBoxSendMail_MouseLeave(object sender, EventArgs e) =>((PictureBox) sender).BorderStyle = BorderStyle.FixedSingle;
+
+        private void _picBoxSwapStations_MouseHover(object sender, EventArgs e)
+        {
+            ((PictureBox) sender).BorderStyle = BorderStyle.Fixed3D;
+            ToolTip tt = new ToolTip();
+            tt.SetToolTip(((PictureBox)sender), "Ausgangsort und Reiseziel vertauschen");
+        }
+        private void _picBoxSwapStations_MouseLeave(object sender, EventArgs e) =>((PictureBox) sender).BorderStyle = BorderStyle.FixedSingle;
+
+        private void _picBoxOpenInBrowser_MouseHover(object sender, EventArgs e)
+        {
+            ((PictureBox)sender).BorderStyle = BorderStyle.Fixed3D;
+            ToolTip tt = new ToolTip();
+            tt.SetToolTip(((PictureBox)sender), "In Browser öffnen");
+        }
+        private void _picBoxOpenInBrowser_MouseLeave(object sender, EventArgs e) => ((PictureBox)sender).BorderStyle = BorderStyle.FixedSingle;
+       #endregion
     }
 }
